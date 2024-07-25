@@ -2,8 +2,17 @@ import { AppShell, Text, Space, Button, Stack } from "@mantine/core";
 import { Lollipop } from "lucide-react";
 
 import { Link, Outlet } from "react-router-dom";
+import { EUrlConstants } from "./common/constants";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function Layout({ children }: { children: JSX.Element }) {
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    navigate(EUrlConstants.CATEGORY);
+  }, []);
+
   return (
     <AppShell
       navbar={{
@@ -29,13 +38,25 @@ export function Layout({ children }: { children: JSX.Element }) {
           </Text>
         </div>
         <Stack h={300} align="stretch" justify="flex-start" gap="xs">
-          <Button variant="default" component={Link} to={`category`}>
+          <Button
+            variant="default"
+            component={Link}
+            to={EUrlConstants.CATEGORY}
+          >
             Категории
           </Button>
-          <Button variant="default" component={Link} to={`items`}>
+          <Button
+            variant="default"
+            component={Link}
+            to={EUrlConstants.PRODUCTS}
+          >
             Товары
           </Button>
-          <Button variant="default" component={Link} to={`settings`}>
+          <Button
+            variant="default"
+            component={Link}
+            to={EUrlConstants.SETTINGS}
+          >
             Настройки
           </Button>
         </Stack>

@@ -1,5 +1,6 @@
 export enum EUrlConstants {
   CATEGORY = "category",
-  PRODUCTS = "products",
+  CATEGORY_EDIT = "category/:categoryId",
+  PRODUCTS = "product",
   SETTINGS = "settings",
 }
