@@ -1,30 +1,15 @@
 import {
-  Card,
   Button,
-  Image,
-  Text,
-  Group,
-  Badge,
-  Pagination,
-  Paper,
   Flex,
-  SimpleGrid,
-  Center,
-  Box,
-  Container,
-  Stack,
-  Table,
   Menu,
   TextInput,
 } from "@mantine/core";
-import { randomId } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 
 import { api } from "../../api/api";
 import { EUrlConstants } from "../../common/constants";
 import { useCategoryStore } from "../../store/category.store";
 import { Search } from "lucide-react";
-import ProductCard from "./ProductCard";
 import ProductsList from "./ProductsList";
 import { TProduct } from "../../common/types";
 
