@@ -3,15 +3,8 @@ import { Lollipop } from "lucide-react";
 
 import { Link, Outlet } from "react-router-dom";
 import { EUrlConstants } from "./common/constants";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
 export function Layout({ children }: { children: JSX.Element }) {
-  const navigate = useNavigate();
-  
-  useEffect(() => {
-    navigate(EUrlConstants.CATEGORY);
-  }, []);
 
   return (
     <AppShell

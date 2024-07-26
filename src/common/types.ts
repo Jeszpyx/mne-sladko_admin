@@ -1,3 +1,4 @@
+import { FileWithPath } from "@mantine/dropzone";
 import { HttpStatusCode } from "axios";
 
 export type TCategory = {
@@ -12,6 +13,7 @@ export type TApiError = {
   statusCode: HttpStatusCode;
 };
 
+
 export type TProduct = {
   id: string;
   category: string;
@@ -19,6 +21,10 @@ export type TProduct = {
   description: string | null;
   price: number;
   prepaymentSale: boolean;
-  prepaymentSaleProcent: number | null;
+  prepaymentSalePercent: number;
   images: { id: string; url: string }[];
 };
+
+export type TProductCreate = Omit<TProduct, 'id' | 'images'> & {
+  images: FileWithPath[];
+}

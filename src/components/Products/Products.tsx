@@ -1,31 +1,39 @@
-import {
-  Button,
-  Flex,
-  Menu,
-  TextInput,
-} from "@mantine/core";
-import { useEffect, useState } from "react";
-
-import { api } from "../../api/api";
-import { EUrlConstants } from "../../common/constants";
+import { Button, Flex, Menu, TextInput } from "@mantine/core";
+import { MouseEventHandler, useEffect, useState } from "react";
 import { useCategoryStore } from "../../store/category.store";
 import { Search } from "lucide-react";
 import ProductsList from "./ProductsList";
-import { TProduct } from "../../common/types";
-
+import { useActiveCategoryState } from "../../store/active-category.store";
+import { useProductStore } from "../../store/product.store";
+import { Link } from "react-router-dom";
+import { EUrlConstants } from "../../common/constants";
+import gsap from "gsap";
 
 const Products = () => {
-  const [products, setProducts] = useState<TProduct[]>([]);
-  const { categories } = useCategoryStore();
+  const { categories, getCategories } = useCategoryStore();
+  const { activeTitle } = useActiveCategoryState();
+  const { products, getProducts } = useProductStore();
+
+  const [search, setSearch] = useState<string>("");
 
   const categoriesMaxLen = 4;
   const visibleItems = categories.slice(0, categoriesMaxLen);
   const hiddenItems = categories.slice(categoriesMaxLen);
-  useEffect(() => {
-    api.get(EUrlConstants.PRODUCTS).then((res) => setProducts(res.data));
 
+  // const handleScroll = (e: any) => {
+  //   e.preventDefault();
+  //   const targetId = e.currentTarget.getAttribute("href");
+  //   const targetElement = document.querySelector(targetId);
+
+  //   gsap.to(window, { scrollTo: targetElement.offsetTop, duration: 1 });
+  //   gsap.fromTo(targetElement, { opacity: 0 }, { opacity: 1, duration: 1 });
+  // };
+
+  useEffect(() => {
+    getCategories();
+    getProducts(search);
     return () => {};
-  }, []);
+  }, [search]);
 
   return (
     <>
@@ -36,6 +44,15 @@ const Products = () => {
         align="center"
         direction="row"
         wrap="wrap"
+        style={{
+          position: "sticky",
+          top: "0",
+          backgroundColor: "white",
+          color: "white",
+          padding: "10px",
+          fontSize: "20px",
+          zIndex: 10,
+        }}
       >
         <div
           style={{
@@ -44,7 +61,14 @@ const Products = () => {
           }}
         >
           {visibleItems.map((item, index) => (
-            <Button key={index} variant="outline" color="pink">
+            <Button
+              key={index}
+              component="a"
+              href={`/product/#${item.title}`}
+              variant={activeTitle === item.title ? "filled" : "outline"}
+              color="pink"
+              // onClick={handleScroll}
+            >
               {item.title}
             </Button>
           ))}
@@ -57,17 +81,41 @@ const Products = () => {
               </Menu.Target>
               <Menu.Dropdown>
                 {hiddenItems.map((item, index) => (
-                  <Menu.Item key={index}>{item.title}</Menu.Item>
+                  <Menu.Item
+                    variant={activeTitle === item.title ? "filled" : "outline"}
+                    color="pink"
+                    key={index}
+                    component="a"
+                    href={`/product/#${item.title}`}
+                  >
+                    {item.title}
+                  </Menu.Item>
                 ))}
               </Menu.Dropdown>
             </Menu>
           )}
         </div>
-        <TextInput leftSection={<Search />} placeholder="Поиск" />
-        <Button color="green">Создать новый товар</Button>
+        <TextInput
+          leftSection={<Search />}
+          placeholder="Поиск"
+          onChange={(e) => {
+            setSearch(e.target.value);
+          }}
+        />
+        <Button
+          color="green"
+          component={Link}
+          to={EUrlConstants.PRODUCTS_CREATE}
+        >
+          Создать новый товар
+        </Button>
       </Flex>
       {categories.map((c) => (
-        <ProductsList title={c.title} items={products.filter(p => p.category === c.title)}/>
+        <ProductsList
+          title={c.title}
+          items={products.filter((p) => p.category === c.title)}
+          key={c.id}
+        />
       ))}
     </>
   );

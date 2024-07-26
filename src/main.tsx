@@ -10,6 +10,10 @@ import { EUrlConstants } from "./common/constants.ts";
 import { Toaster } from "sonner";
 import CategoryEdit from "./components/Category/CategoryEdit.tsx";
 import Products from "./components/Products/Products.tsx";
+import ProductCreateUpdate from "./components/Products/ProductCreateUpdate.tsx";
+import '@mantine/dropzone/styles.css';
+import '@mantine/carousel/styles.css';
+import './index.css'
 
 const router = createBrowserRouter([
   {
@@ -28,6 +32,14 @@ const router = createBrowserRouter([
       {
         path: EUrlConstants.PRODUCTS,
         element: <Products />,
+      },
+      {
+        path: EUrlConstants.PRODUCTS_CREATE,
+        element: <ProductCreateUpdate type={"create"} />,
+      },
+      {
+        path: EUrlConstants.PRODUCTS_EDIT,
+        element: <ProductCreateUpdate type={"update"} />,
       },
       {
         path: EUrlConstants.SETTINGS,
