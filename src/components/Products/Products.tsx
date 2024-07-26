@@ -1,5 +1,5 @@
 import { Button, Flex, Menu, TextInput } from "@mantine/core";
-import { MouseEventHandler, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useCategoryStore } from "../../store/category.store";
 import { Search } from "lucide-react";
 import ProductsList from "./ProductsList";
@@ -7,7 +7,6 @@ import { useActiveCategoryState } from "../../store/active-category.store";
 import { useProductStore } from "../../store/product.store";
 import { Link } from "react-router-dom";
 import { EUrlConstants } from "../../common/constants";
-import gsap from "gsap";
 
 const Products = () => {
   const { categories, getCategories } = useCategoryStore();
@@ -19,16 +18,7 @@ const Products = () => {
   const categoriesMaxLen = 4;
   const visibleItems = categories.slice(0, categoriesMaxLen);
   const hiddenItems = categories.slice(categoriesMaxLen);
-
-  // const handleScroll = (e: any) => {
-  //   e.preventDefault();
-  //   const targetId = e.currentTarget.getAttribute("href");
-  //   const targetElement = document.querySelector(targetId);
-
-  //   gsap.to(window, { scrollTo: targetElement.offsetTop, duration: 1 });
-  //   gsap.fromTo(targetElement, { opacity: 0 }, { opacity: 1, duration: 1 });
-  // };
-
+  
   useEffect(() => {
     getCategories();
     getProducts(search);
